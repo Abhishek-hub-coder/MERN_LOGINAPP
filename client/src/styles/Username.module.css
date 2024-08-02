@@ -1,0 +1,59 @@
+.glass {
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px #4747470b;
+    backdrop-filter: blur(7.1px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 4px solid #d1d5db;
+    margin: auto;
+    max-width: 1200px;
+    padding: 4rem;
+    position: relative;
+    z-index: 0;
+    @apply border-4 border-gray-50 shrink-0 h-3/4 w-[30%] rounded-3xl py-20 px-7 min-w-max;
+}
+
+.profile_img {
+    border: 4px solid #f3f4f6;
+    border-radius: 50%;
+    width: 135px;
+    @apply border-4 border-gray-100 rounded-full shadow-lg cursor-pointer;
+}
+
+.profile_img:hover {
+    border-color: #e5e7eb;
+}
+
+.textbox {
+    border: 0;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    width: 75%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.25rem;
+    outline: none;
+}
+
+.textbox:focus {
+    outline: none;
+}
+
+.btn {
+    border: 0;
+    background-color: #4f46e5;
+    width: 75%;
+    padding: 1rem;
+    border-radius: 1rem;
+    color: #fff;
+    font-size: 1.25rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #ff6a6a;
+}
+
+input[type='file'] {
+    display: none;
+}
