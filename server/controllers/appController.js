@@ -19,6 +19,7 @@ export async function verifyUser(req, res, next) {
         // check the user existance
         let exist = await UserModel.findOne({ username });
         if (!exist) return res.status(404).send({ error: "Can't find User!" });
+        // if there is user inside the mongodb database, it is going to move to the next controller.
         next();
 
     } catch (error) {
@@ -27,18 +28,6 @@ export async function verifyUser(req, res, next) {
 }
 
 
-// I am going to make this middleware applicable for get and post request.
-// if there is get request, i am going to get data from the ft request and if there is post and put request, i a going to get data from the req.body;
-
-//  get all the data from the user here
-
-// check for the existing email
-// if there is no matchingemail inside the mongodb database return resolve.
-// calling both promises
-// check if the user specify the password or not. 
-// storing the user data inside the mongo db database.
-// specify the defalt value for profile.
-// return and save result as a response.
 
 
 export async function register(req, res) {
@@ -80,14 +69,7 @@ export async function register(req, res) {
     }
 }
 
-// Other route controllers
 
-/** POST: http://localhost:8080/api/login 
- * @param: {
-  "username" : "example123",
-  "password" : "admin123"
-}
-*/
 
 
 export async function login(req, res) {
@@ -98,12 +80,14 @@ export async function login(req, res) {
 
         UserModel.findOne({ username })
             .then(user => {
+                // second one is the password from database.
                 bcrypt.compare(password, user.password)
                     .then(passwordCheck => {
 
                         if (!passwordCheck) return res.status(400).send({ error: "Please put password" });
 
                         // create jwt token
+
                         const token = jwt.sign({
                             userId: user._id,
                             username: user.username
@@ -129,28 +113,24 @@ export async function login(req, res) {
     }
 }
 
-// it is going to return all the user information as a response.
 export async function getUser(req, res) {
     const { username } = req.params;
     try {
-        // if we do not have any value inside the username
+
         if (!username) {
             return res.status(501).send({ error: "Invalid Username" });
         }
 
-        // if we have any value inside the username
+
         const user = await UserModel.findOne({ username });
 
         if (!user) {
             return res.status(501).send({ error: "Could not find the user" });
         }
-        // getting all the rest of the properties insde the spread rest variable.
-        // creating a new object and returning only the json data.
-        // assigning a new object with USER.toJSON();
-        /**Mongoose return unnecessary data, so return convert it into JSON */
+
+
         const { password, ...rest } = Object.assign({}, user.toJSON());
-        // if it successfully finds the user, return the user
-        // but , we actually donot want this password filed as a response from the endpoint 
+
         return res.status(201).send(rest);
 
     } catch (error) {
@@ -183,6 +163,7 @@ export async function verifyOTP(req, res) {
     // console.log(`Verifying OTP: ${code}, Stored OTP: ${storedOTP}`);
     if (parseInt(storedOTP) === parseInt(code)) {
         req.app.locals.OTP = null; // reset the OTP value.
+        // reset the opv value. 
         //  start session
         req.app.locals.resetSession = true; // start the sessin for reset password;
         return res.status(201).send({ msg: "verified successfully" });
@@ -193,25 +174,21 @@ export async function verifyOTP(req, res) {
     })
 }
 
-/** this controller is used to make a put request on the local host 8080 to the endpoint update user and with this , we are going to return the userid and the
- * data, which we want to update.
- */
 
-/** we are only going to allow authorized user to update theri values. we need to get token from the user and pass that to the update user. */
-// only the valid user can access this update route.
+
+
+
 export async function updateUser(req, res) {
     try {
-        // Extract the user ID from the query parameters
-        // const id = req.query.id;
-        // we are going to get the user Id from the decoded token and specify that to the update user.
+
         const { userId } = req.user;
 
-        // Check if the ID is provided
+
         if (userId) {
-            // Extract the request body containing the updated user data
+
             const body = req.body;
 
-            // Use async/await with Mongoose's updateOne method to update the user data
+
             const result = await UserModel.updateOne({ _id: userId }, body);
 
             // Check if any documents were modified
@@ -219,10 +196,11 @@ export async function updateUser(req, res) {
                 return res.status(404).send({ error: "No record updated" });
             }
 
-            // Send a success response if the record was updated
+
+
             return res.status(201).send({ msg: "Record updated...!" });
         } else {
-            // Send a response if the user ID is not found in the query parameters
+
             return res.status(401).send({ error: "User not found" });
         }
     } catch (error) {

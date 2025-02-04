@@ -11,10 +11,9 @@ import styles from '../styles/Username.module.css'
 
 
 export default function Username() {
-    //    by doin this  we can access the username
-    // useAuthStore(state => console.log(state.auth.username));
 
-    // navigate the user to the different route.
+
+
     const navigate = useNavigate();
     // specifying the value to the username
     const setUsername = useAuthStore(state => state.setUsername);
@@ -22,26 +21,22 @@ export default function Username() {
     // const username = useAuthStore(state => state.auth.username);
 
 
-    // useEffect(() => {
-    //     console.log(username);
-    // })
+
+
 
 
     const formik = useFormik({
         initialValues: {
             username: ''
         },
-        validate: usernameValidate,  // Use the function directly
+        validate: usernameValidate,
         validateOnChange: false,
         validateOnBlur: false,
         onSubmit: async values => {
 
             setUsername(values.username);
-            //  redirecting user to the password component
+
             navigate('/password')
-
-
-
         }
     });
 

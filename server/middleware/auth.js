@@ -8,8 +8,8 @@ import ENV from '../config.js';
 export default async function Auth(req, res, next) {
     try {
         // access authorized header to validate requests
+        // bearer text with space .seprater from barrier text
         const token = req.headers.authorization.split(" ")[1];
-        // from this token, we can retrieve user details of logged user.
 
         // separating text from the token.
         const decodedToken = await jwt.verify(token, ENV.JWT_SECRET);
@@ -23,8 +23,12 @@ export default async function Auth(req, res, next) {
     }
 }
 
+// middleware for local variables
 
 export function localVariables(req, res, next) {
+
+
+
     req.app.locals = {
         OTP: null,
         resetSession: false

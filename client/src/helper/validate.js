@@ -1,4 +1,4 @@
-/**validate username */
+
 import toast from 'react-hot-toast'
 import { authenticate } from './helper';
 
@@ -46,6 +46,7 @@ export async function resetPasswordValidation(values) {
 export async function registerValidation(values) {
     const errors = usernameVerify({}, values);
     passwordVerify(errors, values);
+    emailVerify(errors, values);
     return errors;
 
 }
@@ -56,6 +57,7 @@ export async function registerValidation(values) {
 /** validate profile page */
 export async function profileValidation(values) {
     const errors = emailVerify({}, values);
+
     return errors;
 }
 
@@ -80,7 +82,7 @@ export async function profileValidation(values) {
 /***************************************************************************************************************************** */
 /** validate password */
 function passwordVerify(errors = {}, values) {
-    /* eslint-disable no-useless-escape */
+
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!values.password) {
         errors.password = toast.error("Password Required...!");
@@ -97,9 +99,6 @@ function passwordVerify(errors = {}, values) {
 
 
 
-
-
-/** validate username  */
 function usernameVerify(error = {}, values) {
     if (!values.username) {
         error.username = toast.error('Username Required...!');
@@ -110,11 +109,7 @@ function usernameVerify(error = {}, values) {
 }
 
 
-/** validate reset password */
 
-/** validate register form  */
-
-/** validate email */
 
 function emailVerify(error = {}, values) {
 

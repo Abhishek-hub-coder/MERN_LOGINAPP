@@ -2,30 +2,29 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
-// specify backend domain
+
 axios.defaults.baseURL = import.meta.env.VITE_APP_SERVER_DOMAIN;
 
 
 
-/**Authenticate function */
-/** Authenticate function */
+
 export async function authenticate(username) {
     try {
         const response = await axios.post('/api/authenticate', { username });
-        return response.data; // Assuming your backend returns data directly
+        return response.data;
     } catch (error) {
         return { error: "Username does not exist" };
     }
 }
 
 
-/**Get user details */
+
 export async function getUser({ username }) {
     try {
-        // $ as for value of the user
+
         const { data } = await axios.get(`api/user/${username}`)
         return { data };
-        // returning data as a object
+
     }
     catch (error) {
         return { error: "Password doesnot Match..!" };
@@ -34,8 +33,7 @@ export async function getUser({ username }) {
 
 
 
-/**register user function */
-// helper.js
+
 
 
 
@@ -59,12 +57,12 @@ export async function registerUser(credentials) {
 
 
 
-// login function to verify password.
+
 export async function verifyPassword({ username, password }) {
     try {
         if (username) {
             const { data } = await axios.post('/api/login', { username, password });
-            // resolve the promise and return the data variable
+
             return Promise.resolve({ data });
         }
     }
@@ -74,7 +72,7 @@ export async function verifyPassword({ username, password }) {
 
 }
 
-// update user profile function
+
 export async function updateUser(response) {
     try {
         // getting toke from the local storage
@@ -116,7 +114,6 @@ export async function verifyOTP({ username, code }) {
 
 
 
-/** reset Password */
 export async function resetPassword({ username, password }) {
     try {
         const { data, status } = await axios.put('/api/resetPassword', { username, password });
