@@ -12,7 +12,7 @@ app.use(morgan('tiny'));
 app.disable('x-powerd-by');
 // less hackers know about our stack
 
-const port = 8081;
+const port = 8081 || process.env.PORT;
 
 
 
