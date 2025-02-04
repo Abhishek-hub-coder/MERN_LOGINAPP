@@ -21,7 +21,6 @@ lerna-debug.log*
 # Node modules
 client/node_modules
 server/node_modules
-server/config.js
 
 # Environment files
 client.env
